@@ -1,0 +1,39 @@
+        {/*         {this.state.displayAddSubject ? (
+          <form onSubmit={this.onNewSubjectSubmit}>
+            <button type="submit" className="btn btn-primary">
+              New Subject
+            </button>
+          </form>
+        ) : null} */}
+
+
+     /*   onNewSubjectSubmit = e => {
+    e.preventDefault();
+
+    this.setState({ displayAddSubject: false });
+  }; */
+   
+   
+    /*     let newSubjectRow;
+
+    if (this.state.displayAddSubject) {
+      newSubjectRow = (
+        <div className="form-row">
+          <SelectList
+            name="subjects"
+            placeholder="Subjects"
+            value={this.state.subject}
+            onChange={this.onChange}
+            options={subjectOption}
+          />
+
+          <SelectList
+            name="grade"
+            placeholder="grade"
+            value={this.state.grade}
+            onChange={this.onChange}
+            options={gradeOption}
+          />
+        </div>
+      );
+    } */

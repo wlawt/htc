@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { registerUser } from '../../actions/authActions';
-import TextFieldGroup from '../common/TextFieldGroup';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+
+// Import actions
+import { createUser } from "../../actions/userActions";
 
 class Register extends Component {
   constructor() {
     super();
+
     this.state = {
-      name: '',
-      email: '',
-      password: '',
-      password2: '',
+      name: "",
+      email: "",
+      password: "",
       errors: {}
     };
 
@@ -22,7 +23,7 @@ class Register extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
+      this.props.history.push("/");
     }
   }
 
@@ -32,89 +33,87 @@ class Register extends Component {
     }
   }
 
-  onChange(e) {
+  onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     const newUser = {
       name: this.state.name,
       email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2
+      password: this.state.password
     };
 
-    // Allows us to redirect within the registerUser component
-    this.props.registerUser(newUser, this.props.history);
-  }
+    this.props.createUser(newUser, this.props.history);
+  };
 
   render() {
     const { errors } = this.state;
 
     return (
-      <div className="register">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">
-                Create your DevConnector account
-              </p>
-              <form noValidate onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  placeholder="Name"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.onChange}
-                  error={errors.name}
-                />
-
-                <TextFieldGroup
-                  type="email"
-                  placeholder="Email Address"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  error={errors.email}
-                  info={
-                    'This site uses Gravatar so if you want a profile image, use a Gravatar email'
-                  }
-                />
-
-                <TextFieldGroup
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                  error={errors.password}
-                />
-
-                <TextFieldGroup
-                  type="password"
-                  placeholder="Confirm password"
-                  name="password2"
-                  value={this.state.password2}
-                  onChange={this.onChange}
-                  error={errors.password2}
-                />
-
-                <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
-            </div>
+      <div className="container pt-5">
+        <h1 className="display-4 pt-2">Register to Harbord Tutoring Club</h1>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <label htmlFor="inputName">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputName"
+              aria-describedby="name"
+              placeholder="Enter name ..."
+              name="name"
+              onChange={this.onChange}
+              value={this.state.name}
+              error={errors.name}
+            />
           </div>
-        </div>
+          <div className="form-group">
+            <label htmlFor="inputEmail">Email Address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="inputEmail"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              name="email"
+              onChange={this.onChange}
+              value={this.state.email}
+              error={errors.email}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputPassword">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="inputPassword"
+              placeholder="Enter Password ..."
+              name="password"
+              onChange={this.onChange}
+              value={this.state.password}
+              error={errors.password}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+          <p className="text-muted">
+            Already have an account? <Link to="/login">Login Here.</Link>
+          </p>
+        </form>
       </div>
     );
   }
 }
 
 Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  createUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -124,5 +123,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { registerUser }
+  { createUser }
 )(withRouter(Register));

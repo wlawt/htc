@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 import {
   ADD_POST,
@@ -8,13 +8,13 @@ import {
   DELETE_POST,
   GET_POST,
   CLEAR_ERRORS
-} from './types';
+} from "./types";
 
 // Add post
 export const addPost = postData => dispatch => {
   dispatch(clearErrors());
   axios
-    .post('/api/posts', postData)
+    .post("/api/posts", postData)
     .then(res =>
       dispatch({
         type: ADD_POST,
@@ -33,7 +33,7 @@ export const addPost = postData => dispatch => {
 export const getPosts = () => dispatch => {
   dispatch(setPostLoading());
   axios
-    .get('/api/posts')
+    .get("/api/posts")
     .then(res =>
       dispatch({
         type: GET_POSTS,

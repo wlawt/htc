@@ -1,99 +1,41 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { getCurrentProfile, deleteAccount } from '../../actions/profileActions';
-import Spinner from '../common/Spinner';
-import ProfileActions from './ProfileActions';
-import Experience from './Experience';
-import Education from './Education';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getTutors } from "../../actions/tutorActions";
+import TutorItem from "./TutorItem";
 
 class Dashboard extends Component {
   componentDidMount() {
-    this.props.getCurrentProfile();
-  }
-
-  onDeleteClick(e) {
-    this.props.deleteAccount();
+    this.props.getTutors();
   }
 
   render() {
-    const { user } = this.props.auth;
-    const { profile, loading } = this.props.profile;
+    const { tutors } = this.props.tutor;
 
-    let dashboardContent;
-
-    if (profile === null || loading) {
-      dashboardContent = <Spinner />;
-    } else {
-      // Check if logged in user has profile data
-      if (Object.keys(profile).length > 0) {
-        dashboardContent = (
-          <div>
-            <p className="lead text-muted">
-              Welcome{' '}
-              <Link to="{`/profile/${profile.handle}`}">{user.name}</Link>
-            </p>
-            <ProfileActions />
-
-            {/* Passing in experience array through profile */}
-            <Experience experience={profile.experience} />
-
-            <div style={{ paddingBottom: '30px' }} />
-
-            <Education education={profile.education} />
-
-            <div style={{ marginBottom: '60px' }} />
-            <button
-              onClick={this.onDeleteClick.bind(this)}
-              className="btn btn-danger"
-            >
-              Delete My Account
-            </button>
-          </div>
-        );
-      } else {
-        // User logged in but has no profile
-        dashboardContent = (
-          <div>
-            <p className="lead text-muted">Welcome {user.name}</p>
-            <p>You have not yet setup a profile, please create a profile</p>
-            <Link to="/create-profile" className="btn btn-lg btn-info">
-              Create Profile
-            </Link>
-          </div>
-        );
-      }
-    }
+    let tutorContent;
+    tutorContent = <TutorItem tutors={tutors} />;
 
     return (
-      <div className="dashboard">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <h1 className="display-4">Dashboard</h1>
-              {dashboardContent}
-            </div>
-          </div>
-        </div>
+      <div className="container pt-3" style={{ paddingBottom: "125px" }}>
+        <h1 className="display-4 pt-2">Tutors</h1>
+        {tutorContent}
       </div>
     );
   }
 }
 
 Dashboard.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-  deleteAccount: PropTypes.func.isRequired
+  tutor: PropTypes.object.isRequired,
+  getTutors: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile,
-  auth: state.auth
+  auth: state.auth,
+  tutor: state.tutor
 });
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile, deleteAccount }
+  { getTutors }
 )(Dashboard);

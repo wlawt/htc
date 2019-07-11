@@ -1,0 +1,97 @@
+        // Show Tuesday / Thursday content
+    let tuesContent;
+    let thursContent;
+    
+    if (this.state.showDate) {
+      tuesContent = (
+        <div>
+          {tutors.map(t => (
+            <div>
+              {this.state.years.map(yr => (
+                <div>
+                  {(t.year === yr && t.available === "TUESDAY") ||
+                  t.available === "BOTH" ? (
+                    <tr>
+                      <th scope="row">
+                        {t.lastName}, {t.firstName}
+                      </th>
+                      <td>{t.grade}</td>
+                      <td>{t.numAbsence}</td>
+                      <td>{t.numHours}</td>
+                      <td>
+                        {t.subjects.map(s => `${s.topic}{" "}${s.grade}, `)}
+                      </td>
+                      <td />
+                    </tr>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      );
+    } else {
+      thursContent = (
+        <div>
+          {tutors.map(t => (
+            <div>
+              {this.state.years.map(yr => (
+                <div>
+                  {(t.year === yr && t.available === "THURSDAY") ||
+                  t.available === "BOTH" ? (
+                    <tr>
+                      <th scope="row">
+                        {t.lastName}, {t.firstName}
+                      </th>
+                      <td>{t.grade}</td>
+                      <td>
+                        {t.numAbsence}
+                        <button
+                          type="button"
+                          onClick={this.addOneAbsence.bind(this, t.id)}
+                          className="btn btn-danger"
+                        >
+                          +
+                        </button>
+                      </td>
+                      <td>
+                        {t.numHours}
+                        <button
+                          type="button"
+                          onClick={this.addHours.bind(this, t.id)}
+                          className="btn btn-success"
+                        >
+                          Add
+                        </button>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter number only"
+                          name="hour"
+                          onChange={this.onChange}
+                          value={this.state.hour}
+                        />
+                      </td>
+                      <td>
+                        {t.subjects.map(s => `${s.topic}{" "}${s.grade}, `)}
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          onClick={this.deleteTutor.bind(this, t.id)}
+                          className="btn btn-danger"
+                        >
+                          <i className="fas fa-trash-alt" />
+                        </button>
+                      </td>
+                    </tr>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+                      {/* {showDate ? { tuesContent } : { thursContent }} */}
