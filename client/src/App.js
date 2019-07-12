@@ -58,44 +58,46 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <Header />
-          <div className="App">
-            <div className="pb-5">
-              <Switch>
-                <PrivateRoute exact path="/" component={Dashboard} />
-              </Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Switch>
-                <PrivateRoute
-                  exact
-                  path="/spreadsheet"
-                  component={Spreadsheet}
-                />
-              </Switch>
-              <Switch>
-                <PrivateRoute
-                  exact
-                  path="/registerTutor"
-                  component={RegisterTutor}
-                />
-              </Switch>
-              <Switch>
-                <PrivateRoute
-                  exact
-                  path="/addSubject/:id"
-                  component={AddSubject}
-                />
-              </Switch>
-              <Switch>
-                <PrivateRoute
-                  exact
-                  path="/subjects"
-                  component={SubjectsOffered}
-                />
-              </Switch>
+          <Switch>
+            <div className="App">
+              <div className="pb-5">
+                <Switch>
+                  <PrivateRoute exact path="/" component={Dashboard} />
+                </Switch>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/spreadsheet"
+                    component={Spreadsheet}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/registerTutor"
+                    component={RegisterTutor}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/addSubject/:id"
+                    component={AddSubject}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/subjects"
+                    component={SubjectsOffered}
+                  />
+                </Switch>
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
+          </Switch>
         </Router>
       </Provider>
     );
