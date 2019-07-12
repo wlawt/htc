@@ -12,6 +12,7 @@ package-lock.json
 
 # production
 /build
+/misc
 
 README.md
 
