@@ -9,12 +9,15 @@ import {
 } from "../../actions/tutorActions";
 import { Link } from "react-router-dom";
 
+import InputGroup from "../common/InputGroup";
+
 class TutorFeed extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      hour: ""
+      hour: "",
+      errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -22,6 +25,12 @@ class TutorFeed extends Component {
 
   componentDidMount() {
     this.props.getTutors();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   onChange = e => {
@@ -50,155 +59,108 @@ class TutorFeed extends Component {
 
   render() {
     const { tutor } = this.props;
+    const { errors } = this.state;
+    const { isAuthenticated } = this.props.auth;
 
-    /* let feed = [];
-    years.map(year => {
-      if (tutor.year === year) {
-        feed.push(
-          <tbody id={`${year}`} role="tabpanel" aria-labelledby={`${year}-tab`}>
-            <tr key={tutor._id}>
-              <th scope="row">
-                <p className="mt-1">
-                  {tutor.lastName}, {tutor.firstName}
-                </p>
-              </th>
-              <td>
-                <p className="mt-1">{tutor.grade}</p>
-              </td>
-              <td>
-                {tutor.numAbsence}
-                <button
-                  type="button"
-                  onClick={this.addOneAbsence.bind(this, tutor._id)}
-                  className="btn btn-danger ml-5"
-                >
-                  +
-                </button>
-              </td>
-              <td>
-                <p className="mt-1" style={{ display: "inline-block" }}>
-                  {tutor.numHours}
-                </p>
-                <div className="text-right" style={{ float: "right" }}>
-                  <button
-                    type="button"
-                    onClick={this.addHours.bind(this, tutor._id)}
-                    className="btn btn-success mb-2"
-                  >
-                    Add
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter number only"
-                  name="hour"
-                  onChange={this.onChange}
-                  value={this.state.hour}
-                />
-              </td>
-              <td>
-                {tutor.subjects.length === 0 ? (
-                  <p className="keepBlock">No subjects</p>
-                ) : (
-                  <p className="keepBlock">
-                    {tutor.subjects.map(s => `${s.topic}${" "}${s.grade}, `)}
-                  </p>
-                )}
-              </td>
-              <td>
-                <div className="keepBlock keepLine mr-2">
-                  <Link
-                    to={`/addSubject/${tutor._id}`}
-                    className="btn btn-primary"
-                  >
-                    +
-                  </Link>
-                </div>
-                <button
-                  type="button"
-                  onClick={this.deleteTutor.bind(this, tutor._id)}
-                  className="btn btn-danger ml-4"
-                >
-                  <i className="fas fa-trash-alt" />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        );
-      }
-    });
-
-    return feed;
- */ return (
-      <tbody>
-        <tr key={tutor._id}>
-          <th scope="row">
-            <p className="mt-1">
-              {tutor.lastName}, {tutor.firstName}
-            </p>
-          </th>
-          <td>
-            <p className="mt-1">{tutor.grade}</p>
-          </td>
-          <td>
-            {tutor.numAbsence}
+    const authDashboard = (
+      <tr key={tutor._id}>
+        <th scope="row">
+          <p className="mt-1">
+            {tutor.lastName}, {tutor.firstName}
+          </p>
+        </th>
+        <td>
+          <p className="mt-1">{tutor.grade}</p>
+        </td>
+        <td>
+          {tutor.numAbsence}
+          <button
+            type="button"
+            onClick={this.addOneAbsence.bind(this, tutor._id)}
+            className="btn btn-danger ml-5"
+          >
+            +
+          </button>
+        </td>
+        <td>
+          <p className="mt-1" style={{ display: "inline-block" }}>
+            {tutor.numHours}
+          </p>
+          <div className="text-right" style={{ float: "right" }}>
             <button
               type="button"
-              onClick={this.addOneAbsence.bind(this, tutor._id)}
-              className="btn btn-danger ml-5"
+              onClick={this.addHours.bind(this, tutor._id)}
+              className="btn btn-success mb-2"
             >
+              Add
+            </button>
+          </div>
+
+          <InputGroup
+            types="text"
+            placeholder="Enter number only"
+            name="hour"
+            onChange={this.onChange}
+            value={this.state.hour}
+            error={errors.hour}
+          />
+        </td>
+        <td>
+          {tutor.subjects.length === 0 ? (
+            <p className="keepBlock">No subjects</p>
+          ) : (
+            <p className="keepBlock">
+              {tutor.subjects.map(s => `${s.topic}${" "}${s.grade}, `)}
+            </p>
+          )}
+        </td>
+        <td>
+          <div className="keepBlock keepLine mr-2">
+            <Link to={`/addSubject/${tutor._id}`} className="btn btn-primary">
               +
-            </button>
-          </td>
-          <td>
-            <p className="mt-1" style={{ display: "inline-block" }}>
-              {tutor.numHours}
-            </p>
-            <div className="text-right" style={{ float: "right" }}>
-              <button
-                type="button"
-                onClick={this.addHours.bind(this, tutor._id)}
-                className="btn btn-success mb-2"
-              >
-                Add
-              </button>
-            </div>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter number only"
-              name="hour"
-              onChange={this.onChange}
-              value={this.state.hour}
-            />
-          </td>
-          <td>
-            {tutor.subjects.length === 0 ? (
-              <p className="keepBlock">No subjects</p>
-            ) : (
-              <p className="keepBlock">
-                {tutor.subjects.map(s => `${s.topic}${" "}${s.grade}, `)}
-              </p>
-            )}
-          </td>
-          <td>
-            <div className="keepBlock keepLine mr-2">
-              <Link to={`/addSubject/${tutor._id}`} className="btn btn-primary">
-                +
-              </Link>
-            </div>
-            <button
-              type="button"
-              onClick={this.deleteTutor.bind(this, tutor._id)}
-              className="btn btn-danger ml-4"
-            >
-              <i className="fas fa-trash-alt" />
-            </button>
-          </td>
-        </tr>
-      </tbody>
+            </Link>
+          </div>
+          <button
+            type="button"
+            onClick={this.deleteTutor.bind(this, tutor._id)}
+            className="btn btn-danger ml-4"
+          >
+            <i className="fas fa-trash-alt" />
+          </button>
+        </td>
+      </tr>
     );
+
+    const guestDashboard = (
+      <tr key={tutor._id}>
+        <th scope="row">
+          <p className="mt-1">
+            {tutor.lastName}, {tutor.firstName}
+          </p>
+        </th>
+        <td>
+          <p className="mt-1">{tutor.grade}</p>
+        </td>
+        <td>{tutor.numAbsence}</td>
+        <td>
+          <p className="mt-1" style={{ display: "inline-block" }}>
+            {tutor.numHours}
+          </p>
+        </td>
+        <td>
+          {tutor.subjects.length === 0 ? (
+            <p className="keepBlock">No subjects</p>
+          ) : (
+            <p className="keepBlock">
+              {tutor.subjects.map(s => `${s.topic}${" "}${s.grade}, `)}
+            </p>
+          )}
+        </td>
+        <td />
+      </tr>
+    );
+
+    return <tbody>{isAuthenticated ? authDashboard : guestDashboard}</tbody>;
   }
 }
 
@@ -208,11 +170,13 @@ TutorFeed.propTypes = {
   deleteTutor: PropTypes.func.isRequired,
   addAbsence: PropTypes.func.isRequired,
   addHourTutor: PropTypes.func.isRequired,
-  getTutors: PropTypes.func.isRequired
+  getTutors: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(

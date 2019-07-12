@@ -17,13 +17,7 @@ class Header extends Component {
     const { isAuthenticated } = this.props.auth;
     const authLinks = (
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/spreadsheet">
-              Spreadsheet
-            </Link>
-          </li>
-        </ul>
+        <ul className="navbar-nav mr-auto" />
         <form className="form-inline my-2 my-lg-0">
           <Link
             className="btn btn-outline-primary my-2 my-sm-0 mr-3"
@@ -43,7 +37,7 @@ class Header extends Component {
 
     const guestLink = (
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav ml-auto" />
+        <ul className="navbar-nav mr-auto" />
         <form className="form-inline my-2 my-lg-0">
           <Link
             className="btn btn-outline-primary my-2 my-sm-0 mr-5"

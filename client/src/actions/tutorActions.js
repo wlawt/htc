@@ -1,18 +1,12 @@
 import axios from "axios";
 
-import {
-  ADD_POST,
-  GET_ERRORS,
-  GET_TUTORS,
-  GET_TUTOR_YEAR
-  /* GET_TUTOR */
-} from "./types";
+import { ADD_POST, GET_ERRORS, GET_TUTORS } from "./types";
 
 // Add tutor to database
 export const addTutor = (createTutor, history) => dispatch => {
   axios
     .post("/api/tutor/register", createTutor)
-    .then(res => history.push("/spreadsheet"))
+    .then(res => history.push("/"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -57,29 +51,11 @@ export const getTutors = () => dispatch => {
     );
 };
 
-// Get tutor by year
-export const getTutorByYear = () => dispatch => {
-  axios
-    .get("/api/tutor/year")
-    .then(res =>
-      dispatch({
-        type: GET_TUTOR_YEAR,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
-};
-
 // Add one absence
 export const addAbsence = (id, history) => dispatch => {
   axios
     .post(`/api/tutor/absence/${id}`)
-    .then(res => history.push("/spreadsheet"))
+    .then(res => history.push("/"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -92,23 +68,11 @@ export const addAbsence = (id, history) => dispatch => {
 export const addHourTutor = (id, tutorData, history) => dispatch => {
   axios
     .post(`/api/tutor/hour/${id}`, tutorData)
-    .then(res => history.push("/spreadsheet"))
+    .then(res => history.push("/"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: ""
-      })
-    );
-};
-
-export const createSubject = (subjectData, history) => dispatch => {
-  axios
-    .post("/api/course", subjectData)
-    .then(res => history.push("/subjects"))
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
       })
     );
 };
@@ -127,9 +91,9 @@ export const deleteTutor = (id, history) => dispatch => {
 };
 
 // Delete all tutors
-export const deleteAllTutors = (delYear, history) => dispatch => {
+export const deleteAllTutors = history => dispatch => {
   axios
-    .delete("/api/tutor/delTutors", delYear)
+    .delete("/api/tutor/delTutors")
     .then(res => history.push("/"))
     .catch(err =>
       dispatch({

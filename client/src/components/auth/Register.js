@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 // Import actions
 import { createUser } from "../../actions/userActions";
 
+import InputGroup from "../common/InputGroup";
+
 class Register extends Component {
   constructor() {
     super();
@@ -56,47 +58,44 @@ class Register extends Component {
       <div className="container pt-5">
         <h1 className="display-4 pt-2">Register to Harbord Tutoring Club</h1>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label htmlFor="inputName">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="inputName"
-              aria-describedby="name"
-              placeholder="Enter name ..."
-              name="name"
-              onChange={this.onChange}
-              value={this.state.name}
-              error={errors.name}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="inputEmail">Email Address</label>
-            <input
-              type="email"
-              className="form-control"
-              id="inputEmail"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-              name="email"
-              onChange={this.onChange}
-              value={this.state.email}
-              error={errors.email}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="inputPassword">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Enter Password ..."
-              name="password"
-              onChange={this.onChange}
-              value={this.state.password}
-              error={errors.password}
-            />
-          </div>
+          <InputGroup
+            divClass="form-group"
+            forAttr="inputName"
+            title="Full name"
+            types="text"
+            id="inputName"
+            placeholder="Enter full name ..."
+            name="name"
+            onChange={this.onChange}
+            value={this.state.name}
+            error={errors.name}
+          />
+
+          <InputGroup
+            divClass="form-group"
+            forAttr="inputEmail"
+            title="Email address"
+            types="email"
+            id="inputEmail"
+            placeholder="Enter email"
+            name="email"
+            onChange={this.onChange}
+            value={this.state.email}
+            error={errors.email}
+          />
+
+          <InputGroup
+            divClass="form-group"
+            forAttr="inputPassword"
+            title="Password"
+            types="password"
+            id="inputPassword"
+            placeholder="Enter password ..."
+            name="password"
+            onChange={this.onChange}
+            value={this.state.password}
+            error={errors.password}
+          />
 
           <button type="submit" className="btn btn-primary">
             Submit

@@ -5,13 +5,16 @@ import PropTypes from "prop-types";
 // Import action
 import { loginUser } from "../../actions/userActions";
 
+import InputGroup from "../common/InputGroup";
+
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -27,6 +30,10 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
   }
 
@@ -46,35 +53,37 @@ class Login extends Component {
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
-      <div className="container pt-5" style={{ marginBottom: "240px" }}>
+      <div className="container pt-5" style={{ marginBottom: "100px" }}>
         <h1 className="display-4 pt-2">Login to Harbord Tutoring Club</h1>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label htmlFor="inputEmail">Email Address</label>
-            <input
-              type="email"
-              className="form-control"
-              id="inputEmail"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-              name="email"
-              onChange={this.onChange}
-              value={this.state.email}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="inputPassword">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Enter Password ..."
-              name="password"
-              onChange={this.onChange}
-              value={this.state.password}
-            />
-          </div>
+          <InputGroup
+            divClass="form-group"
+            forAttr="inputEmail"
+            title="Email address"
+            types="email"
+            id="inputEmail"
+            placeholder="Enter email"
+            name="email"
+            onChange={this.onChange}
+            value={this.state.email}
+            error={errors.email}
+          />
+
+          <InputGroup
+            divClass="form-group"
+            forAttr="inputPassword"
+            title="Password"
+            types="password"
+            id="inputPassword"
+            placeholder="Enter password ..."
+            name="password"
+            onChange={this.onChange}
+            value={this.state.password}
+            error={errors.password}
+          />
 
           <button type="submit" className="btn btn-primary">
             Submit
@@ -87,11 +96,13 @@ class Login extends Component {
 
 Login.propTypes = {
   auth: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired
+  loginUser: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(

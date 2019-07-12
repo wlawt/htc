@@ -1,19 +1,20 @@
-import {
-  ADD_POST,
-  GET_TUTORS,
-  /* GET_TUTOR */
-  GET_TUTOR_YEAR
-} from "../actions/types";
+import { ADD_POST, GET_TUTORS, TUTOR_LOADING } from "../actions/types";
 
 const initalState = {
   subjects: [],
   tutors: [],
   tutor: {},
-  tutorYear: []
+  tutorYear: [],
+  loading: false
 };
 
 export default function(state = initalState, action) {
   switch (action.type) {
+    case TUTOR_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
     case ADD_POST:
       return {
         ...state,
@@ -22,17 +23,8 @@ export default function(state = initalState, action) {
     case GET_TUTORS:
       return {
         ...state,
-        tutors: action.payload
-      };
-    /*     case GET_TUTOR:
-      return {
-        ...state,
-        tutor: action.payload
-      }; */
-    case GET_TUTOR_YEAR:
-      return {
-        ...state,
-        tutorYear: action.payload
+        tutors: action.payload,
+        loading: false
       };
     default:
       return state;

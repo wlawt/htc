@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-/* import YearItem from "./YearItem"; */
 import TutorItem from "./TutorItem";
 import { getTutors, deleteAllTutors } from "../../actions/tutorActions";
 
@@ -10,8 +9,6 @@ class Spreadsheet extends Component {
     super(props);
 
     this.state = {
-      years: ["2019/2020"],
-      years1: ["2019/2020"],
       showDate: true // true == Tuesday || false == Thursday
     };
 
@@ -19,25 +16,6 @@ class Spreadsheet extends Component {
   }
 
   componentDidMount() {
-    /* 
-      Relative year: 2019
-      Automation process to create new spreadsheets for each 
-      succesive year after 2019. Checks once whenever this
-      page is visited. 
-    */
-    let relativeYear = 2019;
-    let currentYear = 2020; /* new Date().getFullYear(); */
-
-    if (relativeYear !== currentYear) {
-      let newYearFormat = `${currentYear}/${currentYear + 1}`;
-      this.setState({
-        years: this.state.years.concat([newYearFormat])
-      });
-      this.setState({
-        years1: this.state.years1.concat([newYearFormat])
-      });
-    }
-
     this.props.getTutors();
   }
 
@@ -53,22 +31,39 @@ class Spreadsheet extends Component {
   };
 
   deleteTutors = () => {
-    const delYear = {
-      year: `${new Date().getFullYear()}/${new Date().getFullYear() + 1}`
-    };
-    this.props.deleteAllTutors(delYear, this.props.history);
+    alert("Are you sure? This action cannot be undone.");
+
+    this.props.deleteAllTutors(this.props.history);
     window.location.reload();
   };
 
   render() {
     const { showDate } = this.state;
-    const { tutors } = this.props.tutor;
-
-    /* let yearHeaders;
-    yearHeaders = <YearItem years={years} />; */
-
+    const { tutors, loading } = this.props.tutor;
+    const { isAuthenticated } = this.props.auth;
     let contentForTutors;
-    contentForTutors = <TutorItem tutors={tutors} showDate={showDate} />;
+
+    if (tutors === null || loading) {
+      contentForTutors = (
+        <td>
+          <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </td>
+      );
+    } else {
+      contentForTutors = <TutorItem tutors={tutors} showDate={showDate} />;
+    }
+
+    const authPerms = (
+      <button
+        onClick={this.deleteTutors.bind(this)}
+        style={{ float: "right" }}
+        className="btn btn-danger"
+      >
+        Delete All Tutors
+      </button>
+    );
 
     return (
       <div className="container pt-3">
@@ -81,13 +76,7 @@ class Spreadsheet extends Component {
           {/* Show opposite state to toggle */}
           Show {showDate ? "Thursday" : "Tuesday"}
         </button>
-        <button
-          onClick={this.deleteTutors.bind(this)}
-          style={{ float: "right" }}
-          className="btn btn-danger"
-        >
-          Delete All Tutors
-        </button>
+        {isAuthenticated ? authPerms : ""}
         <div className="pt-4">
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item">
@@ -116,7 +105,12 @@ class Spreadsheet extends Component {
                   <th scope="col" />
                 </tr>
               </thead>
-              {contentForTutors}
+
+              {contentForTutors.props.tutors.length === 0 ? (
+                <p>Empty!</p>
+              ) : (
+                contentForTutors
+              )}
             </table>
           </div>
         </div>

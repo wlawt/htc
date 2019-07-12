@@ -4,6 +4,8 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { addTutor } from "../../actions/tutorActions";
 
+import InputGroup from "../common/InputGroup";
+
 class CreateTutor extends Component {
   constructor(props) {
     super(props);
@@ -12,12 +14,18 @@ class CreateTutor extends Component {
       firstName: "",
       lastName: "",
       grade: "",
-      year: "",
-      available: ""
+      available: "",
+      errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   onChange = e => {
@@ -30,94 +38,82 @@ class CreateTutor extends Component {
     let date = new Date().getFullYear();
     let currentYear = `${date}/${date + 1}`;
 
-    if (this.state.year !== currentYear) {
-      // TODO: Display error
-      console.log(`Please enter current year: ${currentYear}`);
-    } else {
-      // Dates are correct
-      let availableDate = this.state.available.toUpperCase();
+    let availableDate = this.state.available.toUpperCase();
 
-      const createTutor = {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        grade: this.state.grade,
-        year: this.state.year,
-        available: availableDate
-      };
+    const createTutor = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      grade: this.state.grade,
+      year: currentYear,
+      available: availableDate
+    };
 
-      date = ""; // Reset date value
-      currentYear = ""; // Reset currentYear value
-      this.props.addTutor(createTutor, this.props.history);
-    }
+    date = ""; // Reset date value
+    currentYear = ""; // Reset currentYear value
+    this.props.addTutor(createTutor, this.props.history);
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="container pt-5">
         <h1 className="display-4 pt-1">Register a new tutor</h1>
         <form onSubmit={this.onSubmit} className="pt-1">
           <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="inputFirst">First Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputFirst"
-                placeholder="Enter first name ..."
-                name="firstName"
-                onChange={this.onChange}
-                value={this.state.firstName}
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <label htmlFor="inputLast">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputLast"
-                placeholder="Enter last name ..."
-                name="lastName"
-                onChange={this.onChange}
-                value={this.state.lastName}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="tutorGrade">Grade</label>
-            <input
-              type="text"
-              className="form-control"
-              id="tutorGrade"
-              placeholder="Enter Tutor Grade"
-              name="grade"
+            <InputGroup
+              divClass="form-group col-md-6"
+              forAttr="inputFirst"
+              title="First name"
+              types="text"
+              id="inputFirst"
+              placeholder="Enter first name ..."
+              name="firstName"
               onChange={this.onChange}
-              value={this.state.grade}
+              value={this.state.firstName}
+              error={errors.firstName}
+            />
+
+            <InputGroup
+              divClass="form-group col-md-6"
+              forAttr="inputLast"
+              title="Last name"
+              types="text"
+              id="inputLast"
+              placeholder="Enter last name ..."
+              name="lastName"
+              onChange={this.onChange}
+              value={this.state.lastName}
+              error={errors.lastName}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="yearPart">Year Participating</label>
-            <input
-              type="text"
-              className="form-control"
-              id="yearPart"
-              placeholder="Enter year participating ex. 2019/2020"
-              name="year"
-              onChange={this.onChange}
-              value={this.state.year}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="availDate">Availability</label>
-            <input
-              type="text"
-              className="form-control"
-              id="availDate"
-              placeholder="Ex. Tuesday, Thursday, or Both"
-              name="available"
-              onChange={this.onChange}
-              value={this.state.available}
-            />
-          </div>
+
+          <InputGroup
+            divClass="form-group"
+            forAttr="tutorGrade"
+            title="Grade"
+            types="text"
+            id="tutorGrade"
+            placeholder="Enter tutor grade ..."
+            name="grade"
+            onChange={this.onChange}
+            value={this.state.grade}
+            error={errors.grade}
+          />
+
+          <InputGroup
+            divClass="form-group"
+            forAttr="availDate"
+            title="Availability"
+            types="text"
+            id="availDate"
+            placeholder="Ex. Tuesday, Thursday, or Both"
+            name="available"
+            onChange={this.onChange}
+            value={this.state.available}
+            error={errors.available}
+          />
+
           <button type="submit" className="btn btn-primary">
             Add Tutor
           </button>
@@ -130,12 +126,14 @@ class CreateTutor extends Component {
 CreateTutor.propTypes = {
   tutor: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  addTutor: PropTypes.func.isRequired
+  addTutor: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   tutor: state.tutor,
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(

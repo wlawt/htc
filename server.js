@@ -7,7 +7,6 @@ const path = require("path");
 // Add routes
 const user = require("./routes/api/user");
 const tutor = require("./routes/api/tutor");
-const course = require("./routes/api/course");
 
 const app = express();
 
@@ -19,10 +18,9 @@ const db = require("./config/keys").mongoURI;
 // Use routes
 app.use("/api/user", user);
 app.use("/api/tutor", tutor);
-app.use("/api/course", course);
 
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 

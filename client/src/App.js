@@ -5,14 +5,13 @@ import store from "./store";
 
 // Components
 import Header from "./components/layout/Header";
-import Dashboard from "./components/dashboard/Dashboard";
 import Spreadsheet from "./components/Spreadsheet/Spreadsheet";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import RegisterTutor from "./components/Tutor/CreateTutor";
 import AddSubject from "./components/Tutor/AddSubject";
-import SubjectsOffered from "./components/subjects/SubjectsOffered";
 import Footer from "./components/layout/Footer";
+import NotFound from "./components/not-found/NotFound";
 
 import {
   setCurrentUser,
@@ -48,7 +47,7 @@ if (localStorage.jwtToken) {
     store.dispatch(clearCurrentUser());
 
     // Redirect to login
-    window.location.href = "/login";
+    window.location.href = "/";
   }
 }
 
@@ -59,40 +58,28 @@ class App extends Component {
         <Router>
           <div>
             <Header />
+
             <div className="App">
-              <div className="pb-5">
+              <div className="pb-5" style={{ marginBottom: "300px" }}>
                 <Switch>
-                  <PrivateRoute exact path="/" component={Dashboard} />
-                </Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Switch>
-                  <PrivateRoute
-                    exact
-                    path="/spreadsheet"
-                    component={Spreadsheet}
-                  />
-                </Switch>
-                <Switch>
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/register" component={Register} />
+
+                  <Route exact path="/" component={Spreadsheet} />
+
                   <PrivateRoute
                     exact
                     path="/registerTutor"
                     component={RegisterTutor}
                   />
-                </Switch>
-                <Switch>
+
                   <PrivateRoute
                     exact
                     path="/addSubject/:id"
                     component={AddSubject}
                   />
-                </Switch>
-                <Switch>
-                  <PrivateRoute
-                    exact
-                    path="/subjects"
-                    component={SubjectsOffered}
-                  />
+
+                  <Route component={NotFound} />
                 </Switch>
               </div>
               <Footer />

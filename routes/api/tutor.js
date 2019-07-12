@@ -5,6 +5,9 @@ const passport = require("passport");
 
 const Tutor = require("../../models/Tutor");
 
+// Validation
+const validateTutorInputs = require("../../validator/tutor");
+
 var ObjectID = require("mongodb").ObjectID;
 
 /*  @route      POST api/tutor/register
@@ -15,11 +18,13 @@ router.post(
   "/register",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateTutorInputs(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
     Tutor.findOne({ tutor: req.body.name }).then(tutor => {
-      if (!tutor) {
-        // Tutor exists
-        return res.status(400);
-      }
       const newTutor = new Tutor({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -58,18 +63,14 @@ router.post(
 
 /*  @route      GET api/tutor
     @desc       Retrieve all tutors
-    @access     Private
+    @access     Public
 */
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Tutor.find()
-      .sort({ lastName: 1 })
-      .then(tutors => res.json(tutors))
-      .catch(err => res.status(404));
-  }
-);
+router.get("/", (req, res) => {
+  Tutor.find()
+    .sort({ lastName: 1 })
+    .then(tutors => res.json(tutors))
+    .catch(err => res.status(404));
+});
 
 /*  @route      GET api/tutor/:id
     @desc       Retrieve tutor by id
@@ -124,6 +125,22 @@ router.post(
   }
 );
 
+/*  @route      POST api/tutor/delTutors
+    @desc       Remove all tutors
+    @access     Private
+*/
+router.delete(
+  "/delTutors",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Tutor.deleteMany({
+      year: `${new Date().getFullYear()}/${new Date().getFullYear() + 1}`
+    })
+      .then(() => console.log("done"))
+      .catch(e => console.log(e));
+  }
+);
+
 /*  @route      POST api/tutor
     @desc       Remove tutor
     @access     Private
@@ -135,21 +152,6 @@ router.delete(
     Tutor.findOneAndRemove({ _id: new ObjectID(req.params.id) }).then(() => {
       res.json({ success: true });
     });
-  }
-);
-
-/*  @route      POST api/tutor/delTutors
-    @desc       Remove all tutors
-    @access     Private
-*/
-router.delete(
-  "/delTutors",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    //collections.deleteMany({ year: req.body.year });
-    db.get()
-      .collection("tutors")
-      .remove({});
   }
 );
 

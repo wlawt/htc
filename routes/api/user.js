@@ -8,6 +8,10 @@ const passport = require("passport");
 // Load user model
 const User = require("../../models/User");
 
+// Validation
+const validateLoginInput = require("../../validator/login");
+const validateRegisterInput = require("../../validator/register");
+
 router.get("/", (req, res) => {
   res.json({ msg: "yea" });
 });
@@ -17,6 +21,12 @@ router.get("/", (req, res) => {
     @access     Public
 */
 router.post("/register", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   User.findOne({ email: req.body.email }).then(user => {
     // Check if user exists
     if (user) {
@@ -52,6 +62,12 @@ router.post("/register", (req, res) => {
     @access     Public
 */
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const email = req.body.email;
   const password = req.body.password;
 
