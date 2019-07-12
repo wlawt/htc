@@ -56,7 +56,6 @@ class CreateTutor extends Component {
     const { errors } = this.state;
 
     const gradeOption = [
-      { label: "Select Grade", value: "0" },
       { label: "Grade 9", value: "9" },
       { label: "Grade 10", value: "10" },
       { label: "Grade 11", value: "11" },
@@ -64,7 +63,6 @@ class CreateTutor extends Component {
     ];
 
     const availableOption = [
-      { label: "Select Date", value: "None" },
       { label: "Tuesday", value: "TUESDAY" },
       { label: "Thursday", value: "THURSDAY" },
       { label: "Both", value: "BOTH" }
