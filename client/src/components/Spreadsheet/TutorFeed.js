@@ -105,7 +105,7 @@ class TutorFeed extends Component {
             error={errors.hour}
           />
         </td>
-        <td>
+        <td style={{ wordWrap: "break-word" }}>
           {tutor.subjects.length === 0 ? (
             <p className="keepBlock">No subjects</p>
           ) : (

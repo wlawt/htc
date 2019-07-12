@@ -94,7 +94,7 @@ class Spreadsheet extends Component {
             </li>
           </ul>
           <div className="tab-content" id="myTabContent">
-            <table className="table">
+            <table className="table" style={{ tableLayout: "fixed" }}>
               <thead className="thead-light">
                 <tr>
                   <th scope="col">Name</th>
