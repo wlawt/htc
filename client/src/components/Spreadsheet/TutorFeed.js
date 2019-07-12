@@ -5,7 +5,8 @@ import {
   deleteTutor,
   addAbsence,
   addHourTutor,
-  getTutors
+  getTutors,
+  minusAbsence
 } from "../../actions/tutorActions";
 import { Link } from "react-router-dom";
 
@@ -47,6 +48,11 @@ class TutorFeed extends Component {
     window.location.reload();
   };
 
+  minusOneAbsence = id => {
+    this.props.minusAbsence(id, this.props.history);
+    window.location.reload();
+  };
+
   addHours = id => {
     const tutorData = {
       hour: this.state.hour
@@ -81,6 +87,16 @@ class TutorFeed extends Component {
           >
             +
           </button>
+          <br />
+          <p style={{ float: "center" }}>
+            <button
+              type="button"
+              onClick={this.minusOneAbsence.bind(this, tutor._id)}
+              className="btn btn-success ml-5"
+            >
+              —
+            </button>
+          </p>
         </td>
         <td>
           <p className="mt-1" style={{ display: "inline-block" }}>
@@ -171,7 +187,8 @@ TutorFeed.propTypes = {
   addAbsence: PropTypes.func.isRequired,
   addHourTutor: PropTypes.func.isRequired,
   getTutors: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  minusAbsence: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -181,5 +198,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deleteTutor, addAbsence, addHourTutor, getTutors }
+  { deleteTutor, addAbsence, addHourTutor, getTutors, minusAbsence }
 )(TutorFeed);

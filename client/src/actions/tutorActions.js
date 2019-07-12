@@ -64,6 +64,18 @@ export const addAbsence = (id, history) => dispatch => {
     );
 };
 
+export const minusAbsence = (id, history) => dispatch => {
+  axios
+    .post(`/api/tutor/minus-absence/${id}`)
+    .then(res => history.push("/"))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: ""
+      })
+    );
+};
+
 // Add hours for tutor
 export const addHourTutor = (id, tutorData, history) => dispatch => {
   axios

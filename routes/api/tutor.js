@@ -106,6 +106,26 @@ router.post(
   }
 );
 
+/*  @route      POST api/tutor/minus-absence/:id
+    @desc       Remove absence
+    @access     Private
+*/
+router.post(
+  "/minus-absence/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // Returns true all the time if tutor exists
+    Tutor.updateOne(
+      { _id: new ObjectID(req.params.id) },
+      {
+        $inc: {
+          numAbsence: -1
+        }
+      }
+    ).then(tutor => res.json(tutor));
+  }
+);
+
 /*  @route      POST api/tutor/hour/:id
     @desc       Add hours
     @access     Private
