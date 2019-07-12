@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { addTutor } from "../../actions/tutorActions";
 
 import InputGroup from "../common/InputGroup";
+import SelectList from "../common/SelectList";
 
 class CreateTutor extends Component {
   constructor(props) {
@@ -38,14 +39,12 @@ class CreateTutor extends Component {
     let date = new Date().getFullYear();
     let currentYear = `${date}/${date + 1}`;
 
-    let availableDate = this.state.available.toUpperCase();
-
     const createTutor = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       grade: this.state.grade,
       year: currentYear,
-      available: availableDate
+      available: this.state.available
     };
 
     date = ""; // Reset date value
@@ -55,6 +54,21 @@ class CreateTutor extends Component {
 
   render() {
     const { errors } = this.state;
+
+    const gradeOption = [
+      { label: "Select Grade", value: "0" },
+      { label: "Grade 9", value: "9" },
+      { label: "Grade 10", value: "10" },
+      { label: "Grade 11", value: "11" },
+      { label: "Grade 12", value: "12" }
+    ];
+
+    const availableOption = [
+      { label: "Select Date", value: "None" },
+      { label: "Tuesday", value: "TUESDAY" },
+      { label: "Thursday", value: "THURSDAY" },
+      { label: "Both", value: "BOTH" }
+    ];
 
     return (
       <div className="container pt-5">
@@ -88,32 +102,25 @@ class CreateTutor extends Component {
             />
           </div>
 
-          <InputGroup
-            divClass="form-group"
-            forAttr="tutorGrade"
-            title="Grade"
-            types="text"
-            id="tutorGrade"
-            placeholder="Enter tutor grade ..."
-            name="grade"
-            onChange={this.onChange}
-            value={this.state.grade}
-            error={errors.grade}
-          />
+          <div className="form-row">
+            <SelectList
+              divClass="form-group"
+              name="grade"
+              placeholder="Choose Grade"
+              value={this.state.grade}
+              onChange={this.onChange}
+              options={gradeOption}
+            />
 
-          <InputGroup
-            divClass="form-group"
-            forAttr="availDate"
-            title="Availability"
-            types="text"
-            id="availDate"
-            placeholder="Ex. Tuesday, Thursday, or Both"
-            name="available"
-            onChange={this.onChange}
-            value={this.state.available}
-            error={errors.available}
-          />
-
+            <SelectList
+              divClass="form-group"
+              name="available"
+              placeholder="Choose dates ..."
+              value={this.state.available}
+              onChange={this.onChange}
+              options={availableOption}
+            />
+          </div>
           <button type="submit" className="btn btn-primary">
             Add Tutor
           </button>
