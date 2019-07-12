@@ -57,8 +57,8 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Header />
-          <Switch>
+          <div>
+            <Header />
             <div className="App">
               <div className="pb-5">
                 <Switch>
@@ -97,7 +97,7 @@ class App extends Component {
               </div>
               <Footer />
             </div>
-          </Switch>
+          </div>
         </Router>
       </Provider>
     );
