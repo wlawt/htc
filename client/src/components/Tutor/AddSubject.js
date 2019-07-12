@@ -45,7 +45,7 @@ class AddSubject extends Component {
   onUpdateTutor = e => {
     e.preventDefault();
 
-    this.props.history.push("/spreadsheet");
+    this.props.history.push("/");
   };
 
   render() {
