@@ -50,21 +50,30 @@ class Header extends Component {
     );
 
     return (
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light pt-3 pb-3">
-          <Link to="/" className="navbar-brand">
-            <img
-              src={HTCLogo}
-              alt="HTC Logo"
-              width="30"
-              height="30"
-              className="d-inline-block align-top mr-3 ml-3"
-            />
-            Harbord Tutoring Club
-          </Link>
-          {isAuthenticated ? authLinks : guestLink}
-        </nav>
-      </div>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light pt-3 pb-3">
+        <Link to="/" className="navbar-brand">
+          <img
+            src={HTCLogo}
+            alt="HTC Logo"
+            width="30"
+            height="30"
+            className="d-inline-block align-top mr-3 ml-3"
+          />
+          Harbord Tutoring Club
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
+        {isAuthenticated ? authLinks : guestLink}
+      </nav>
     );
   }
 }
