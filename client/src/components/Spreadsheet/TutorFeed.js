@@ -80,21 +80,20 @@ class TutorFeed extends Component {
         </td>
         <td>
           {tutor.numAbsence}
-          <button
-            type="button"
-            onClick={this.addOneAbsence.bind(this, tutor._id)}
-            className="btn btn-danger ml-5"
-          >
-            +
-          </button>
-          <br />
-          <p style={{ float: "center" }}>
+          <p style={{ marginTop: "20px" }}>
+            <button
+              type="button"
+              onClick={this.addOneAbsence.bind(this, tutor._id)}
+              className="btn btn-danger"
+            >
+              <i className="fas fa-plus" />
+            </button>
             <button
               type="button"
               onClick={this.minusOneAbsence.bind(this, tutor._id)}
-              className="btn btn-success ml-5"
+              className="btn btn-success ml-3"
             >
-              —
+              <i className="fas fa-minus" />
             </button>
           </p>
         </td>
@@ -114,7 +113,7 @@ class TutorFeed extends Component {
 
           <InputGroup
             types="text"
-            placeholder="Enter number only"
+            placeholder="Enter time"
             name="hour"
             onChange={this.onChange}
             value={this.state.hour}

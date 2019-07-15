@@ -17,7 +17,13 @@ class Header extends Component {
     const { isAuthenticated } = this.props.auth;
     const authLinks = (
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto" />
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to="/log">
+              Log
+            </Link>
+          </li>
+        </ul>
         <form className="form-inline my-2 my-lg-0">
           <Link
             className="btn btn-outline-primary my-2 my-sm-0 mr-3"
@@ -70,7 +76,7 @@ class Header extends Component {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon" />
+          <span className="navbar-toggler-icon" />
         </button>
         {isAuthenticated ? authLinks : guestLink}
       </nav>

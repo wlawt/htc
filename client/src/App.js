@@ -12,6 +12,7 @@ import RegisterTutor from "./components/Tutor/CreateTutor";
 import AddSubject from "./components/Tutor/AddSubject";
 import Footer from "./components/layout/Footer";
 import NotFound from "./components/not-found/NotFound";
+import Log from "./components/log/Log";
 
 import {
   setCurrentUser,
@@ -78,6 +79,8 @@ class App extends Component {
                     path="/addSubject/:id"
                     component={AddSubject}
                   />
+
+                  <PrivateRoute exact path="/log" component={Log} />
 
                   <Route component={NotFound} />
                 </Switch>
