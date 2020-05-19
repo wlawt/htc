@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import SelectList from "../common/SelectHour";
 import { addHourTutor } from "../../actions/tutorActions";
 
+var arr = [];
+
 class Log extends Component {
   constructor(props) {
     super(props);
@@ -13,18 +15,59 @@ class Log extends Component {
       hourTimeStart: "",
       minTimeStart: "",
       hourTimeEnd: "",
-      minTimeEnd: ""
+      minTimeEnd: "",
+      hours: [{ hourTimeStart: "" }]
     };
-
-    this.onChange = this.onChange.bind(this);
+    /* 
+    this.onChange = this.onChange.bind(this); */
   }
 
   componentDidMount() {
     this.props.getTutors();
   }
 
-  onChange = e => {
+  onHourStartChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleHoursHourTimeStart = i => e => {
+    console.log(e.target.value);
+    const newHours = this.state.hours.map((hour, si) => {
+      /* if (i !== si) {
+        return hour;
+      } */
+      arr.push(e.target.value);
+      console.log(arr);
+      return { ...hour, hourTimeStart: arr };
+    });
+
+    this.setState({ hours: newHours });
+  };
+
+  onMinStartChange = e => {
+    /* console.log(id); */
+    console.log(e.target);
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onMinEndChange = e => {
+    if (e.target.name === "minTimeEnd") {
+      this.setState({ [e.target.name]: e.target.value });
+    }
+  };
+
+  onHourEndChange = e => {
+    if (e.target.name === "hourTimeEnd") {
+      this.setState({ [e.target.name]: e.target.value });
+    }
+  };
+
+  /* onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  } */
+
+  onChange = (fieldName, value) => {
+    this.setState({ [fieldName]: value });
   };
 
   onCalculateHour = id => {
@@ -49,6 +92,7 @@ class Log extends Component {
 
   render() {
     const { tutors } = this.props.tutor;
+    console.log(this.state.hours);
 
     const hourTime = [
       { label: "Select", value: "" },
@@ -75,7 +119,7 @@ class Log extends Component {
       tutorContent = <h1>Empty!</h1>;
     } else {
       if (tutors.length > 0) {
-        tutorContent = tutors.map(tutor => (
+        tutorContent = tutors.map((tutor, index) => (
           <tr key={tutor._id}>
             <td>
               {tutor.lastName}, {tutor.firstName}
@@ -85,13 +129,13 @@ class Log extends Component {
                 <SelectList
                   name="hourTimeStart"
                   value={this.state.hourTimeStart}
-                  onChange={this.onChange}
+                  onChange={this.handleHoursHourTimeStart(index)}
                   options={hourTime}
                 />
                 <SelectList
                   name="minTimeStart"
                   value={this.state.minTimeStart}
-                  onChange={this.onChange}
+                  onChange={this.onMinStartChange.bind(this)}
                   options={minTime}
                 />
               </div>
@@ -101,13 +145,13 @@ class Log extends Component {
                 <SelectList
                   name="hourTimeEnd"
                   value={this.state.hourTimeEnd}
-                  onChange={this.onChange}
+                  onChange={this.onHourEndChange.bind(this)}
                   options={hourTime}
                 />
                 <SelectList
                   name="minTimeEnd"
                   value={this.state.minTimeEnd}
-                  onChange={this.onChange}
+                  onChange={this.onMinEndChange.bind(this)}
                   options={minTime}
                 />
               </div>

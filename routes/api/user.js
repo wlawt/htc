@@ -12,10 +12,6 @@ const User = require("../../models/User");
 const validateLoginInput = require("../../validator/login");
 const validateRegisterInput = require("../../validator/register");
 
-router.get("/", (req, res) => {
-  res.json({ msg: "yea" });
-});
-
 /*  @route      POST api/user/register
     @desc       Register user
     @access     Public
@@ -24,6 +20,7 @@ router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
+    errors.email = "User already exists";
     return res.status(400).json(errors);
   }
 
@@ -69,7 +66,8 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     // See if exists
     if (!user) {
-      return res.status(400);
+      errors.email = "Email or password is incorrect";
+      return res.status(404).json(errors);
     }
 
     // Check if password matches hash
@@ -95,7 +93,9 @@ router.post("/login", (req, res) => {
         );
       } else {
         // Password doesn't match
-        return res.status(400);
+        errors.email = "Email or password is incorrect";
+        errors.password = "Email or password is incorrect";
+        return res.status(400).json(errors);
       }
     });
   });
