@@ -31,13 +31,13 @@ npm run dev
 - Be able to view the tutors (name didn't want to be disclosed), 
 the subjects they teach, their grade, and number of absences (to ensure
 you're picking a tutor that committed to your success)
-![Landing](https://github.com/wlawt/htc/tree/master/img/landing.png)
+![Landing](https://github.com/wlawt/htc/blob/master/img/landing.png)
 
 #### Volunteer Hour Log
 - It's very hard to keep track of an accurate list of hours. This allows 
 the exec team to easily manage all the hours and update the total count 
 in real-time without any human errors. 
-![Log](https://github.com/wlawt/htc/tree/master/img/log.png)
+![Log](https://github.com/wlawt/htc/blob/master/img/log.png)
 
 #### Admin/Exec Dashboard
 - This page allows the teachers and executive team to manage all the tutors
@@ -45,15 +45,15 @@ and to ensure the integrity of the hours being recorded
 - We can easily store the history of previous tutors for any purpose needed (
 the tabs "2020/2021" get updated right at the start of the school year, 
 automatically)
-![Dashboard](https://github.com/wlawt/htc/tree/master/img/dashboard.png)
+![Dashboard](https://github.com/wlawt/htc/blob/master/img/dashboard.png)
 
 #### Add Tutor
 - Pick between the grades (9-12) and your availability (Tues/Thurs)
-![Tutor](https://github.com/wlawt/htc/tree/master/img/addtutor.png)
+![Tutor](https://github.com/wlawt/htc/blob/master/img/addtutor.png)
 
 #### Add/Change Tutor Subjects
 - Update any subjects, if needed (and easily keep track of them 😉)
-![Subject](https://github.com/wlawt/htc/tree/master/img/subject.png)
+![Subject](https://github.com/wlawt/htc/blob/master/img/subject.png)
 
 ## Update threads
 
